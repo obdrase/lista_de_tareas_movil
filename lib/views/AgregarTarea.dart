@@ -24,7 +24,7 @@ class AgregarTarea extends StatelessWidget {
         ),
         centerTitle: true,
         backgroundColor: Colors.blueAccent,
-        
+        automaticallyImplyLeading: false,
       ),
       body: Padding(
         padding: EdgeInsets.all(20),
@@ -62,7 +62,13 @@ class AgregarTarea extends StatelessWidget {
               },
               child: Text("Guardar"),
             ),
-            
+            SizedBox(height: 20),
+            ElevatedButton(
+              onPressed: () {
+                Navigator.pop(context); 
+              },
+              child: Text("Volver al inicio"),
+            ),
           ],
         ),
       ),
