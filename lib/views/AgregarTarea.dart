@@ -2,17 +2,37 @@ import 'package:flutter/material.dart';
 import 'package:lista_de_tareas/controllers/TareaController.dart';
 import 'package:lista_de_tareas/models/Tarea.dart';
 
-class AgregarTarea extends StatelessWidget {
-  final TareaController _tareasController = TareaController();
+class AgregarTarea extends StatefulWidget {
   final Function(Tarea) onTareaAdded;
 
   AgregarTarea({required this.onTareaAdded});
 
   @override
-  Widget build(BuildContext context) {
-    TextEditingController tituloController = TextEditingController();
-    TextEditingController descripcionController = TextEditingController();
+  _AgregarTareaState createState() => _AgregarTareaState();
+}
 
+class _AgregarTareaState extends State<AgregarTarea> {
+  final TareaController _tareasController = TareaController();
+  late TextEditingController tituloController;
+  late TextEditingController descripcionController;
+  bool intentoGuardar = false;
+
+  @override
+  void initState() {
+    super.initState();
+    tituloController = TextEditingController();
+    descripcionController = TextEditingController();
+  }
+
+  @override
+  void dispose() {
+    tituloController.dispose();
+    descripcionController.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: Text(
@@ -35,6 +55,7 @@ class AgregarTarea extends StatelessWidget {
               controller: tituloController,
               decoration: InputDecoration(
                 labelText: "Título de la tarea",
+                errorText: intentoGuardar && tituloController.text.isEmpty ? "Campo requerido" : null,
               ),
             ),
             SizedBox(height: 20),
@@ -42,30 +63,34 @@ class AgregarTarea extends StatelessWidget {
               controller: descripcionController,
               decoration: InputDecoration(
                 labelText: "Descripción de la tarea",
+                errorText: intentoGuardar && descripcionController.text.isEmpty ? "Campo requerido" : null,
               ),
             ),
             SizedBox(height: 20),
             ElevatedButton(
               onPressed: () {
-                String titulo = tituloController.text;
-                String descripcion = descripcionController.text;
-                if (!titulo.isEmpty && !descripcion.isEmpty) {
-                  Tarea nuevaTarea = Tarea(
-                    titulo: titulo,
-                    descripcion: descripcion,
-                    estado: false,
-                  );
-                  _tareasController.agregarTarea(nuevaTarea);
-                  onTareaAdded(nuevaTarea);
-                  Navigator.pop(context);
-                }
+                setState(() {
+                  intentoGuardar = true;
+                  String titulo = tituloController.text;
+                  String descripcion = descripcionController.text;
+                  if (!titulo.isEmpty || !descripcion.isEmpty) {
+                    Tarea nuevaTarea = Tarea(
+                      titulo: titulo,
+                      descripcion: descripcion,
+                      estado: false,
+                    );
+                    _tareasController.agregarTarea(nuevaTarea);
+                    widget.onTareaAdded(nuevaTarea);
+                    Navigator.pop(context);
+                  } 
+                });
               },
               child: Text("Guardar"),
             ),
             SizedBox(height: 20),
             ElevatedButton(
               onPressed: () {
-                Navigator.pop(context); 
+                Navigator.pop(context);
               },
               child: Text("Volver al inicio"),
             ),
