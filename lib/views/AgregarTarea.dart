@@ -10,10 +10,44 @@ class AgregarTarea extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    
+    TextEditingController tituloController = TextEditingController();
+    TextEditingController descripcionController = TextEditingController();
 
     return Scaffold(
-      
+      appBar: AppBar(
+        title: Text(
+          "Agregar Tarea",
+          style: TextStyle(
+            color: Colors.white,
+            fontWeight: FontWeight.bold,
+          ),
+        ),
+        centerTitle: true,
+        backgroundColor: Colors.blueAccent,
+        
+      ),
+      body: Padding(
+        padding: EdgeInsets.all(20),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            TextFormField(
+              controller: tituloController,
+              decoration: InputDecoration(
+                labelText: "Título de la tarea",
+              ),
+            ),
+            SizedBox(height: 20),
+            TextFormField(
+              controller: descripcionController,
+              decoration: InputDecoration(
+                labelText: "Descripción de la tarea",
+              ),
+            ),
+            
+          ],
+        ),
+      ),
     );
   }
 }
