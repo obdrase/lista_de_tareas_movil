@@ -44,6 +44,24 @@ class AgregarTarea extends StatelessWidget {
                 labelText: "Descripción de la tarea",
               ),
             ),
+            SizedBox(height: 20),
+            ElevatedButton(
+              onPressed: () {
+                String titulo = tituloController.text;
+                String descripcion = descripcionController.text;
+                if (!titulo.isEmpty && !descripcion.isEmpty) {
+                  Tarea nuevaTarea = Tarea(
+                    titulo: titulo,
+                    descripcion: descripcion,
+                    estado: false,
+                  );
+                  _tareasController.agregarTarea(nuevaTarea);
+                  onTareaAdded(nuevaTarea);
+                  Navigator.pop(context);
+                }
+              },
+              child: Text("Guardar"),
+            ),
             
           ],
         ),
