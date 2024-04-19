@@ -80,6 +80,12 @@ class _AgregarTareaState extends State<AgregarTarea> {
                       estado: false,
                     );
                     _tareasController.agregarTarea(nuevaTarea);
+                    Map<String,dynamic>tareaMapa = {
+                    'titulo':nuevaTarea.titulo,
+                    'descripcion':nuevaTarea.descripcion,
+                    'estado':nuevaTarea.estado,
+                    };
+                    _tareasController.crearfirebase(tareaMapa);
                     widget.onTareaAdded(nuevaTarea);
                     Navigator.pop(context);
                   } 

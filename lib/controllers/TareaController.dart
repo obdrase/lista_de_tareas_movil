@@ -1,7 +1,11 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:lista_de_tareas/models/Tarea.dart';
 
 
 class TareaController {
+  FirebaseFirestore db = FirebaseFirestore.instance;
+  final String collection = "Tareas";
+
   List<Tarea> tareas =[
     Tarea(
       titulo: "Actividad 2 movil", 
@@ -19,6 +23,10 @@ class TareaController {
 
   List<Tarea> getTareas(){
   return tareas;
+  }
+  Future<String> crearfirebase(Map<String,dynamic> TareaMap) async{
+    DocumentReference response = await db.collection(collection).add(TareaMap);
+    return response.id;
   }
 
   void agregarTarea(Tarea) {
